@@ -18,12 +18,27 @@
 }
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:2rem 1rem;}
 .container{max-width:960px;margin:0 auto;}
+
+/* ── Header ── */
 header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
 .logo{font-size:1.1rem;font-weight:700;letter-spacing:.04em;}
 .logo span{color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
 #last-update{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
 
-/* ── Score card : 2 colonnes (jauge + signal), plus de BTC ni livre ── */
+/* ── Language flags ── */
+.lang-switcher{display:flex;gap:6px;align-items:center;}
+.lang-btn{
+  background:transparent;border:1px solid var(--border);
+  border-radius:6px;padding:3px 7px;cursor:pointer;
+  font-size:13px;line-height:1;transition:all .15s;
+  display:flex;align-items:center;
+}
+.lang-btn:hover{border-color:rgba(255,255,255,.25);}
+.lang-btn.active{border-color:var(--accent);background:rgba(99,102,241,.15);}
+.lang-btn svg{width:20px;height:14px;border-radius:2px;display:block;}
+
+/* ── Score card ── */
 .score-card-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:1.25rem;overflow:hidden;}
 .score-card{
   padding:2rem;
@@ -44,6 +59,9 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .signal-pill.sell{background:var(--sell-bg);color:var(--sell);border:1px solid rgba(248,113,113,.3);}
 .signal-pill.wait{background:var(--wait-bg);color:var(--wait);border:1px solid rgba(251,191,36,.3);}
 .signal-explain{font-size:.78rem;color:var(--muted);line-height:1.6;}
+.bitstack-link{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.5rem;}
+.bitstack-link a{color:var(--accent);text-decoration:none;font-weight:600;}
+.bitstack-link a:hover{text-decoration:underline;}
 
 /* ── Method bar ── */
 .method-bar{padding:.85rem 1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;border-top:1px solid var(--border);}
@@ -73,77 +91,34 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .tl-btn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
 .tl-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-/* ── Overlay BTC toggle ── */
+/* ── BTC toggle ── */
 .btc-chart-toggle{
   display:inline-flex;align-items:center;gap:6px;
   font-size:11px;font-weight:600;color:var(--muted);
   cursor:pointer;padding:4px 10px;border-radius:20px;
-  border:1px solid var(--border);background:transparent;
-  transition:all .2s;
+  border:1px solid var(--border);background:transparent;transition:all .2s;
 }
 .btc-chart-toggle:hover{border-color:rgba(247,147,26,.4);color:var(--btc);}
 .btc-chart-toggle.active{border-color:rgba(247,147,26,.5);background:rgba(247,147,26,.08);color:var(--btc);}
-.toggle-pip{
-  width:26px;height:14px;border-radius:7px;
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
-  position:relative;transition:background .2s;flex-shrink:0;
-}
+.toggle-pip{width:26px;height:14px;border-radius:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);position:relative;transition:background .2s;flex-shrink:0;}
 .btc-chart-toggle.active .toggle-pip{background:rgba(247,147,26,.35);border-color:rgba(247,147,26,.5);}
-.toggle-pip::after{
-  content:'';position:absolute;top:2px;left:2px;
-  width:8px;height:8px;border-radius:50%;
-  background:rgba(255,255,255,.4);transition:transform .2s,background .2s;
-}
+.toggle-pip::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);transition:transform .2s,background .2s;}
 .btc-chart-toggle.active .toggle-pip::after{transform:translateX(12px);background:var(--btc);}
 
-/* ── Livre (section dédiée avant historique) ── */
-.book-section{
-  background:var(--surface);border:1px solid var(--border);border-radius:16px;
-  padding:1.5rem;margin-bottom:1.25rem;
-  display:flex;align-items:center;gap:2rem;
-}
-@media(max-width:600px){
-  .book-section{flex-direction:column;align-items:center;text-align:center;}
-}
+/* ── Livre ── */
+.book-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:2rem;}
+@media(max-width:600px){.book-section{flex-direction:column;align-items:center;text-align:center;}}
 .book-col{display:flex;flex-direction:column;align-items:center;gap:.75rem;flex-shrink:0;}
 .book-3d-wrap{position:relative;width:140px;height:200px;}
-.book-3d{
-  position:absolute;top:6px;left:10px;width:110px;
-  border-radius:2px 5px 5px 2px;
-  box-shadow:-5px 0 0 0 #78350f,-6px 2px 8px rgba(0,0,0,.5),6px 12px 28px rgba(0,0,0,.6);
-  transform:rotate(-5deg) perspective(500px) rotateY(-6deg);
-  transition:transform .3s ease,box-shadow .3s ease;
-  animation:tilt 4s ease-in-out infinite;display:block;
-}
-.book-3d:hover{
-  transform:rotate(-5deg) perspective(500px) rotateY(-12deg) scale(1.04);
-  box-shadow:-7px 0 0 0 #78350f,-8px 3px 12px rgba(0,0,0,.55),10px 18px 36px rgba(0,0,0,.7);
-}
-@keyframes tilt{
-  0%,100%{transform:rotate(-5deg) perspective(500px) rotateY(-6deg) translateY(0);}
-  50%{transform:rotate(-5deg) perspective(500px) rotateY(-6deg) translateY(-5px);}
-}
-.book-shine{
-  position:absolute;top:6px;left:10px;width:110px;height:calc(100% - 6px);
-  border-radius:2px 5px 5px 2px;
-  background:linear-gradient(130deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 35%);
-  pointer-events:none;transform:rotate(-5deg);z-index:2;
-}
-.book-badge{
-  position:absolute;top:0;right:0;width:52px;height:52px;
-  background:var(--accent);border-radius:50%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(99,102,241,.5);z-index:3;
-  animation:badgePop 4s ease-in-out infinite;
-}
+.book-3d{position:absolute;top:6px;left:10px;width:110px;border-radius:2px 5px 5px 2px;box-shadow:-5px 0 0 0 #78350f,-6px 2px 8px rgba(0,0,0,.5),6px 12px 28px rgba(0,0,0,.6);transform:rotate(-5deg) perspective(500px) rotateY(-6deg);transition:transform .3s ease,box-shadow .3s ease;animation:tilt 4s ease-in-out infinite;display:block;}
+.book-3d:hover{transform:rotate(-5deg) perspective(500px) rotateY(-12deg) scale(1.04);box-shadow:-7px 0 0 0 #78350f,-8px 3px 12px rgba(0,0,0,.55),10px 18px 36px rgba(0,0,0,.7);}
+@keyframes tilt{0%,100%{transform:rotate(-5deg) perspective(500px) rotateY(-6deg) translateY(0);}50%{transform:rotate(-5deg) perspective(500px) rotateY(-6deg) translateY(-5px);}}
+.book-shine{position:absolute;top:6px;left:10px;width:110px;height:calc(100% - 6px);border-radius:2px 5px 5px 2px;background:linear-gradient(130deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 35%);pointer-events:none;transform:rotate(-5deg);z-index:2;}
+.book-badge{position:absolute;top:0;right:0;width:52px;height:52px;background:var(--accent);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(99,102,241,.5);z-index:3;animation:badgePop 4s ease-in-out infinite;}
 @keyframes badgePop{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-3px) scale(1.04);}}
 .book-badge-label{font-size:7px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.8);text-transform:uppercase;line-height:1;}
 .book-badge-num{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:#fff;line-height:1.2;}
-.book-shadow{
-  position:absolute;bottom:0;left:14px;width:95px;height:10px;
-  background:radial-gradient(ellipse at center,rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 80%);
-  border-radius:50%;transform:rotate(-5deg) perspective(500px) rotateX(60deg);
-}
+.book-shadow{position:absolute;bottom:0;left:14px;width:95px;height:10px;background:radial-gradient(ellipse at center,rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 80%);border-radius:50%;transform:rotate(-5deg) perspective(500px) rotateX(60deg);}
 .book-cta{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.4;}
 .book-cta a{color:var(--accent);text-decoration:none;}
 .book-cta a:hover{text-decoration:underline;}
@@ -151,34 +126,115 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .book-desc strong{color:var(--text);font-weight:600;}
 
 /* ── Disclaimer ── */
-.disclaimer{
-  padding:.75rem 1rem .75rem 1.1rem;
-  border-radius:10px;
-  border-left:3px solid rgba(251,191,36,.45);
-  background:rgba(251,191,36,.05);
-  font-size:.72rem;color:var(--muted);line-height:1.6;
-  margin-bottom:1.25rem;
-}
+.disclaimer{padding:.75rem 1rem .75rem 1.1rem;border-radius:10px;border-left:3px solid rgba(251,191,36,.45);background:rgba(251,191,36,.05);font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;}
 .disclaimer strong{color:rgba(251,191,36,.85);font-weight:500;}
-
-/* ── History ── */
-.history-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:2rem;}
-.history-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;}
-.history-row:last-child{border-bottom:none;}
-.history-badge{padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.06em;min-width:70px;text-align:center;}
-.history-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:88px;}
-.history-score{font-family:'DM Mono',monospace;font-size:13px;color:var(--text);}
-.history-zone{font-size:12px;color:var(--muted);}
 
 /* ── Loader ── */
 #loader{text-align:center;padding:4rem;color:var(--muted);font-size:.9rem;}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem;}
 @keyframes spin{to{transform:rotate(360deg);}}
-footer{text-align:center;font-size:11px;color:var(--muted);padding-bottom:1rem;}
+
+/* ── Footer ── */
+footer{text-align:center;font-size:11px;color:var(--muted);padding-bottom:1rem;line-height:2;}
 footer a{color:var(--muted);}
+.footer-love{font-size:11px;color:rgba(99,102,241,.6);letter-spacing:.08em;font-style:italic;margin-top:.25rem;}
+
 @media(max-width:480px){
   .score-card{padding:1.25rem;}
   .metrics{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ── Plus d'informations (collapsible) ── */
+.info-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:1.25rem;overflow:hidden;}
+.info-toggle{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.5rem;background:transparent;border:none;cursor:pointer;
+  font-family:'Syne',sans-serif;font-size:.85rem;font-weight:600;
+  color:var(--muted);letter-spacing:.05em;text-align:left;
+  transition:color .2s;
+}
+.info-toggle:hover{color:var(--text);}
+.info-toggle-icon{
+  width:22px;height:22px;border-radius:50%;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform .3s,border-color .2s;
+}
+.info-toggle:hover .info-toggle-icon{border-color:rgba(255,255,255,.25);}
+.info-section.open .info-toggle-icon{transform:rotate(45deg);border-color:var(--accent);}
+.info-section.open .info-toggle{color:var(--text);}
+.info-toggle-icon svg{width:10px;height:10px;stroke:var(--muted);transition:stroke .2s;}
+.info-toggle:hover .info-toggle-icon svg{stroke:var(--text);}
+.info-section.open .info-toggle-icon svg{stroke:var(--accent);}
+
+.info-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .45s cubic-bezier(.4,0,.2,1);
+}
+.info-section.open .info-body{max-height:1200px;}
+
+.info-inner{padding:0 1.5rem 1.5rem;}
+.info-divider{height:1px;background:var(--border);margin:1.1rem 0;}
+
+/* F&G explanation */
+.info-explain{font-size:.78rem;color:var(--muted);line-height:1.75;}
+.info-explain strong{color:var(--text);font-weight:600;}
+
+/* BTC price block */
+.info-btc-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.info-btc-price{font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:500;color:var(--btc);}
+.info-trend{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.78rem;font-weight:500;padding:4px 12px;border-radius:100px;border:1px solid;}
+.info-trend.up{color:var(--buy);background:var(--buy-bg);border-color:rgba(74,222,128,.3);}
+.info-trend.down{color:var(--sell);background:var(--sell-bg);border-color:rgba(248,113,113,.3);}
+.info-trend.flat{color:var(--wait);background:var(--wait-bg);border-color:rgba(251,191,36,.3);}
+.info-btc-sub{font-size:11px;color:var(--muted);margin-top:.25rem;font-family:'DM Mono',monospace;}
+
+/* Perf table */
+.perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:.1rem;}
+@media(max-width:560px){.perf-grid{grid-template-columns:1fr;}}
+.perf-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;}
+.perf-year{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.4rem;}
+.perf-value{font-family:'DM Mono',monospace;font-size:1.35rem;font-weight:500;}
+.perf-value.pos{color:var(--buy);}
+.perf-value.neg{color:var(--sell);}
+.perf-value.neutral{color:var(--muted);}
+.perf-detail{font-size:10px;color:var(--muted);margin-top:.3rem;line-height:1.5;}
+.perf-loading{font-size:.75rem;color:var(--muted);font-family:'DM Mono',monospace;animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+.info-section-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.6rem;}
+
+/* Perf card — clickable */
+.perf-card{cursor:pointer;transition:border-color .2s,background .2s;}
+.perf-card:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05);}
+.perf-card.active{border-color:var(--accent);background:rgba(99,102,241,.06);}
+.perf-card-chevron{float:right;font-size:10px;color:var(--muted);margin-top:2px;transition:transform .25s;}
+.perf-card.active .perf-card-chevron{transform:rotate(180deg);}
+
+/* Trade detail drawer */
+.perf-drawer{
+  display:none;
+  margin-top:.75rem;
+  border-top:1px solid var(--border);
+  padding-top:.75rem;
+}
+.perf-drawer.open{display:block;}
+.trade-table{width:100%;border-collapse:collapse;font-family:'DM Mono',monospace;font-size:11px;}
+.trade-table th{
+  text-align:left;color:var(--muted);font-weight:500;
+  padding:4px 6px;border-bottom:1px solid var(--border);
+  letter-spacing:.06em;font-size:10px;text-transform:uppercase;
+}
+.trade-table td{padding:5px 6px;vertical-align:middle;color:var(--text);border-bottom:1px solid rgba(255,255,255,.04);}
+.trade-table tr:last-child td{border-bottom:none;}
+.trade-badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.05em;}
+.trade-badge.buy{background:var(--buy-bg);color:var(--buy);border:1px solid rgba(74,222,128,.25);}
+.trade-badge.sell{background:var(--sell-bg);color:var(--sell);border:1px solid rgba(248,113,113,.25);}
+.trade-badge.open{background:var(--wait-bg);color:var(--wait);border:1px solid rgba(251,191,36,.25);}
+.trade-pct.pos{color:var(--buy);}
+.trade-pct.neg{color:var(--sell);}
+.trade-score-pill{
+  display:inline-block;width:28px;height:28px;line-height:28px;
+  border-radius:50%;text-align:center;font-size:10px;font-weight:700;
+  flex-shrink:0;
 }
 </style>
 </head>
@@ -186,14 +242,34 @@ footer a{color:var(--muted);}
 <div class="container">
   <header>
     <div class="logo">Crypto F&amp;G <span>·</span> Méthode 30/60</div>
-    <div id="last-update">Chargement...</div>
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')" title="Français">
+          <svg viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="14" fill="#ED2939"/>
+            <rect width="13.33" height="14" fill="#fff"/>
+            <rect width="6.67" height="14" fill="#002395"/>
+          </svg>
+        </button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">
+          <svg viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="14" fill="#012169"/>
+            <path d="M0,0 L20,14 M20,0 L0,14" stroke="#fff" stroke-width="2.8"/>
+            <path d="M0,0 L20,14 M20,0 L0,14" stroke="#C8102E" stroke-width="1.6"/>
+            <path d="M10,0 V14 M0,7 H20" stroke="#fff" stroke-width="4"/>
+            <path d="M10,0 V14 M0,7 H20" stroke="#C8102E" stroke-width="2.4"/>
+          </svg>
+        </button>
+      </div>
+      <div id="last-update">Chargement...</div>
+    </div>
   </header>
 
-  <div id="loader"><div class="spinner"></div>Récupération des données…</div>
+  <div id="loader"><div class="spinner"></div><span data-i18n="loading">Récupération des données…</span></div>
 
   <div id="dashboard" style="display:none;">
 
-    <!-- ── Encart principal F&G (jauge + signal) ── -->
+    <!-- ── Score card ── -->
     <div class="score-card-wrapper">
       <div class="score-card">
         <div class="gauge-wrap">
@@ -203,30 +279,30 @@ footer a{color:var(--muted);}
         <div class="score-info">
           <div class="zone-label" id="zone-label">—</div>
           <div class="score-big" id="score-big">—</div>
-          <div id="signal-pill" class="signal-pill wait">— Attente</div>
+          <div id="signal-pill" class="signal-pill wait">— <span data-i18n="wait_short">Attente</span></div>
           <p class="signal-explain" id="signal-explain">—</p>
-          <p class="signal-explain" style="margin-top:.5rem;">Téléchargez Bitstack avec <a href="https://bitstack-app.com/referral/yrlcmkLVYyTH" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600;">mon lien</a> et recevez 5&nbsp;€ en Bitcoin&nbsp;!</p>
+          <p class="bitstack-link"><span data-i18n="bitstack_pre">Téléchargez Bitstack avec</span> <a href="https://bitstack-app.com/referral/yrlcmkLVYyTH" target="_blank" rel="noopener" data-i18n-href="bitstack_link">mon lien</a> <span data-i18n="bitstack_post">et recevez 5&nbsp;€ en Bitcoin&nbsp;!</span></p>
         </div>
       </div>
       <div class="method-bar">
-        <div class="method-item"><div class="dot" style="background:var(--buy)"></div>≤ 30 — Signal ACHAT</div>
-        <div class="method-item"><div class="dot" style="background:var(--wait)"></div>31–59 — Zone neutre</div>
-        <div class="method-item"><div class="dot" style="background:var(--sell)"></div>≥ 60 — Signal VENTE</div>
+        <div class="method-item"><div class="dot" style="background:var(--buy)"></div><span data-i18n="method_buy">≤ 30 — Signal ACHAT</span></div>
+        <div class="method-item"><div class="dot" style="background:var(--wait)"></div><span data-i18n="method_wait">31–59 — Zone neutre</span></div>
+        <div class="method-item"><div class="dot" style="background:var(--sell)"></div><span data-i18n="method_sell">≥ 60 — Signal VENTE</span></div>
       </div>
     </div>
 
-    <!-- ── Métriques F&G ── -->
+    <!-- ── Métriques ── -->
     <div class="metrics">
-      <div class="metric"><div class="metric-label">Hier</div><div class="metric-value" id="m-yesterday">—</div></div>
-      <div class="metric"><div class="metric-label">Semaine passée</div><div class="metric-value" id="m-week">—</div></div>
-      <div class="metric"><div class="metric-label" id="lbl-buys">Jours ACHAT — 7J</div><div class="metric-value buy" id="m-buys">—</div></div>
-      <div class="metric"><div class="metric-label" id="lbl-sells">Jours VENTE — 7J</div><div class="metric-value sell" id="m-sells">—</div></div>
+      <div class="metric"><div class="metric-label" data-i18n="yesterday">Hier</div><div class="metric-value" id="m-yesterday">—</div></div>
+      <div class="metric"><div class="metric-label" data-i18n="last_week">Semaine passée</div><div class="metric-value" id="m-week">—</div></div>
+      <div class="metric"><div class="metric-label" id="lbl-buys" data-i18n-dynamic="days_buy">Jours ACHAT — 7J</div><div class="metric-value buy" id="m-buys">—</div></div>
+      <div class="metric"><div class="metric-label" id="lbl-sells" data-i18n-dynamic="days_sell">Jours VENTE — 7J</div><div class="metric-value sell" id="m-sells">—</div></div>
     </div>
 
     <!-- ── Graphique ── -->
     <div class="chart-card">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
-        <div class="card-title" id="chart-title">Évolution Fear &amp; Greed — 7 derniers jours</div>
+        <div class="card-title" id="chart-title" data-i18n="chart_title_7">Évolution Fear &amp; Greed — 7 derniers jours</div>
         <div class="timeline-btns">
           <button class="tl-btn active" data-days="7">7J</button>
           <button class="tl-btn" data-days="30">30J</button>
@@ -239,20 +315,75 @@ footer a{color:var(--muted);}
       </div>
       <div class="chart-wrap"><canvas id="histChart"></canvas></div>
       <div class="chart-legend">
-        <div class="legend-item"><div class="legend-line" style="background:#6366f1"></div>Score F&amp;G</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--buy)"></div>Achat (≤30)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--sell)"></div>Vente (≥60)</div>
-        <div class="legend-item"><div class="legend-line" style="background:var(--buy);opacity:.6"></div>Seuil 30</div>
-        <div class="legend-item"><div class="legend-line" style="background:var(--sell);opacity:.6"></div>Seuil 60</div>
-        <div id="btc-legend" class="legend-item" style="display:none;"><div class="legend-line" style="background:#f7931a"></div>Prix BTC</div>
+        <div class="legend-item"><div class="legend-line" style="background:#6366f1"></div><span data-i18n="legend_fg">Score F&amp;G</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--buy)"></div><span data-i18n="legend_buy">Achat (≤30)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--sell)"></div><span data-i18n="legend_sell">Vente (≥60)</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:var(--buy);opacity:.6"></div><span data-i18n="threshold">Seuil 30</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:var(--sell);opacity:.6"></div><span data-i18n="threshold2">Seuil 60</span></div>
+        <div id="btc-legend" class="legend-item" style="display:none;"><div class="legend-line" style="background:#f7931a"></div><span data-i18n="btc_price">Prix BTC</span></div>
         <button class="btc-chart-toggle" id="btc-chart-toggle">
           <div class="toggle-pip"></div>
-          ₿ Superposer BTC
+          <span data-i18n="overlay_btc">₿ Superposer BTC</span>
         </button>
       </div>
     </div>
 
-    <!-- ── Livre (avant historique) ── -->
+    <!-- ── Plus d'informations (collapsible) ── -->
+    <div class="info-section" id="info-section">
+      <button class="info-toggle" id="info-toggle" onclick="toggleInfo()">
+        <span id="info-toggle-label">＋ Plus d'informations</span>
+        <span class="info-toggle-icon">
+          <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="5" y1="1" x2="5" y2="9" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="1" y1="5" x2="9" y2="5" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+      <div class="info-body">
+        <div class="info-inner">
+
+          <!-- F&G Explication -->
+          <div class="info-section-label" id="lbl-fg-explain">Qu'est-ce que le Fear &amp; Greed Index ?</div>
+          <div class="info-explain" id="fg-explain-text">
+            Le <strong>Fear &amp; Greed Index</strong> est un indicateur publié quotidiennement par <strong>alternative.me</strong>.
+            Il mesure l'état émotionnel du marché crypto sur une échelle de <strong>0</strong> (peur extrême) à <strong>100</strong> (avidité extrême).
+            Il agrège six signaux : <strong>volatilité</strong>, <strong>volume de marché</strong>, <strong>réseaux sociaux</strong>,
+            <strong>dominance Bitcoin</strong>, <strong>tendances Google</strong> et <strong>momentum des prix</strong>.
+            Un score bas indique que les investisseurs paniquent — historiquement un bon moment d'achat.
+            Un score élevé signale l'euphorie — souvent précurseur d'une correction.
+          </div>
+
+          <div class="info-divider"></div>
+
+          <!-- Prix BTC + Tendance 3j -->
+          <div class="info-section-label" id="lbl-btc-live">Prix BTC &amp; Tendance</div>
+          <div class="info-btc-row">
+            <div>
+              <div class="info-btc-price" id="info-btc-price"><span class="perf-loading">Chargement…</span></div>
+              <div class="info-btc-sub" id="info-btc-sub"></div>
+            </div>
+            <div class="info-trend flat" id="info-trend">
+              <span id="info-trend-arrow">→</span>
+              <span id="info-trend-label">—</span>
+            </div>
+          </div>
+
+          <div class="info-divider"></div>
+
+          <!-- Performance globale depuis l'origine -->
+          <div class="info-section-label" id="lbl-perf">Performance de la méthode 30/60 — depuis l'origine</div>
+          <div class="perf-card" id="pcard-all" onclick="togglePerfDrawer('all')" style="margin-top:.1rem;">
+            <div class="perf-year" id="perf-all-period">Chargement… <span class="perf-card-chevron">▼</span></div>
+            <div class="perf-value" id="perf-all"><span class="perf-loading">…</span></div>
+            <div class="perf-detail" id="perf-all-detail"></div>
+            <div class="perf-drawer" id="pdrawer-all"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Livre ── -->
     <div class="book-section">
       <div class="book-col">
         <div class="book-3d-wrap">
@@ -264,39 +395,162 @@ footer a{color:var(--muted);}
           </div>
           <div class="book-shadow"></div>
         </div>
-        <div class="book-cta">La méthode expliquée<br><a href="#">Découvrir le livre →</a></div>
+        <div class="book-cta"><span data-i18n="book_cta_label">La méthode expliquée</span><br><a href="#" data-i18n="book_cta_link">Découvrir le livre →</a></div>
       </div>
-      <div class="book-desc">
-        <strong>Bitcoin Sans Stress</strong> — La méthode 30/60 vous aide à investir sans émotions&nbsp;: achetez quand la peur domine (score ≤&nbsp;30), vendez quand l'euphorie s'emballe (score ≥&nbsp;60). Simple, mécanique, éprouvé.
+      <div class="book-desc" id="book-desc-text">
+        <strong>Bitcoin Sans Stress</strong> — <span data-i18n="book_desc">La méthode 30/60 vous aide à investir sans émotions&nbsp;: achetez quand la peur domine (score ≤&nbsp;30), vendez quand l'euphorie s'emballe (score ≥&nbsp;60). Simple, mécanique, éprouvé.</span>
       </div>
     </div>
 
     <!-- ── Disclaimer ── -->
     <div class="disclaimer">
-      <strong>⚠ Avertissement</strong> — Informations uniquement. Pas un conseil en investissement. <strong>Aucun rendement garanti.</strong> Investissez uniquement ce que vous pouvez vous permettre de perdre.
-    </div>
-
-    <!-- ── Historique signaux (7 derniers jours) ── -->
-    <div class="history-card">
-      <div class="card-title" id="lbl-history" style="margin-bottom:1rem;">Historique des signaux — 7J</div>
-      <div id="signal-history"></div>
+      <strong>⚠ <span data-i18n="disclaimer_title">Avertissement</span></strong> — <span data-i18n="disclaimer_body">Informations uniquement. Pas un conseil en investissement.</span> <strong><span data-i18n="disclaimer_no_return">Aucun rendement garanti.</span></strong> <span data-i18n="disclaimer_end">Investissez uniquement ce que vous pouvez vous permettre de perdre.</span>
     </div>
 
   </div>
 
-  <footer>F&amp;G : <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank">alternative.me</a> · Rafraîchissement à 14h05 CET</footer>
+  <footer>
+    F&amp;G : <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank">alternative.me</a> · <span data-i18n="footer_refresh">Rafraîchissement à 14h05 CET</span>
+    <div class="footer-love">From Rocknrolla with love</div>
+  </footer>
 </div>
 
 <script>
 const BUY_THRESHOLD=30,SELL_THRESHOLD=60;
 let allData=[],btcHistData=[],showBtcChart=false,activeDays=7,chartInstance=null;
+let currentLang='fr';
+
+// ── Traductions ──────────────────────────────────────────────
+const T={
+  fr:{
+    loading:'Récupération des données…',
+    wait_short:'Attente',
+    bitstack_pre:'Téléchargez Bitstack avec',
+    bitstack_link:'mon lien',
+    bitstack_post:'et recevez 5 € en Bitcoin !',
+    method_buy:'≤ 30 — Signal ACHAT',
+    method_wait:'31–59 — Zone neutre',
+    method_sell:'≥ 60 — Signal VENTE',
+    yesterday:'Hier',
+    last_week:'Semaine passée',
+    days_buy:'Jours ACHAT',
+    days_sell:'Jours VENTE',
+    chart_title:'Évolution Fear & Greed',
+    chart_7:'7 derniers jours',chart_30:'30 derniers jours',chart_90:'3 derniers mois',
+    chart_180:'6 derniers mois',chart_365:'12 derniers mois',chart_1095:'3 dernières années',chart_9999:'Historique complet',
+    legend_fg:'Score F&G',legend_buy:'Achat (≤30)',legend_sell:'Vente (≥60)',
+    threshold:'Seuil 30',threshold2:'Seuil 60',btc_price:'Prix BTC',overlay_btc:'₿ Superposer BTC',
+    book_cta_label:'La méthode expliquée',book_cta_link:'Découvrir le livre →',
+    book_desc:"La méthode 30/60 vous aide à investir sans émotions : achetez quand la peur domine (score ≤ 30), vendez quand l'euphorie s'emballe (score ≥ 60). Simple, mécanique, éprouvé.",
+    disclaimer_title:'Avertissement',
+    disclaimer_body:'Informations uniquement. Pas un conseil en investissement.',
+    disclaimer_no_return:'Aucun rendement garanti.',
+    disclaimer_end:'Investissez uniquement ce que vous pouvez vous permettre de perdre.',
+    footer_refresh:'Rafraîchissement à 14h05 CET',
+    last_update_prefix:'Mis à jour le',
+    last_update_at:'à',
+    zone_extreme_fear:'Peur Extrême',zone_fear:'Peur',zone_neutral:'Neutre',zone_greed:'Avidité',zone_extreme_greed:'Avidité Extrême',
+    signal_buy:'↑ Signal ACHAT',signal_sell:'↓ Signal VENTE',signal_wait:'— Attendre',
+    signal_exp_buy:"Score ≤ 30 — La peur domine le marché crypto. Selon la méthode 30/60, c'est un signal d'achat.",
+    signal_exp_sell:"Score ≥ 60 — L'euphorie domine. Selon la méthode 30/60, c'est un signal de vente.",
+    signal_exp_wait:'Score entre 31 et 59 — Zone neutre. Attendre un signal clair.',
+    tooltip_fg:'F&G',tooltip_btc:'BTC',
+    sfx_7j:'7J',sfx_30j:'30J',sfx_3m:'3M',sfx_6m:'6M',sfx_1an:'1AN',sfx_3ans:'3ANS',sfx_all:'ALL',
+    error_prefix:'Erreur F&G',
+  },
+  en:{
+    loading:'Fetching data…',
+    wait_short:'Waiting',
+    bitstack_pre:'Download Bitstack with',
+    bitstack_link:'my referral link',
+    bitstack_post:'and get 5 € in Bitcoin!',
+    method_buy:'≤ 30 — BUY Signal',
+    method_wait:'31–59 — Neutral zone',
+    method_sell:'≥ 60 — SELL Signal',
+    yesterday:'Yesterday',
+    last_week:'Last week',
+    days_buy:'BUY Days',
+    days_sell:'SELL Days',
+    chart_title:'Fear & Greed Evolution',
+    chart_7:'Last 7 days',chart_30:'Last 30 days',chart_90:'Last 3 months',
+    chart_180:'Last 6 months',chart_365:'Last 12 months',chart_1095:'Last 3 years',chart_9999:'Full history',
+    legend_fg:'F&G Score',legend_buy:'Buy (≤30)',legend_sell:'Sell (≥60)',
+    threshold:'Level 30',threshold2:'Level 60',btc_price:'BTC Price',overlay_btc:'₿ Overlay BTC',
+    book_cta_label:'The method explained',book_cta_link:'Discover the book →',
+    book_desc:'The 30/60 method helps you invest without emotions: buy when fear dominates (score ≤ 30), sell when euphoria takes over (score ≥ 60). Simple, mechanical, proven.',
+    disclaimer_title:'Disclaimer',
+    disclaimer_body:'For informational purposes only. Not investment advice.',
+    disclaimer_no_return:'No returns guaranteed.',
+    disclaimer_end:'Only invest what you can afford to lose.',
+    footer_refresh:'Auto-refresh at 14:05 CET',
+    last_update_prefix:'Updated on',
+    last_update_at:'at',
+    zone_extreme_fear:'Extreme Fear',zone_fear:'Fear',zone_neutral:'Neutral',zone_greed:'Greed',zone_extreme_greed:'Extreme Greed',
+    signal_buy:'↑ BUY Signal',signal_sell:'↓ SELL Signal',signal_wait:'— Wait',
+    signal_exp_buy:'Score ≤ 30 — Fear dominates the crypto market. According to the 30/60 method, this is a buy signal.',
+    signal_exp_sell:'Score ≥ 60 — Euphoria dominates. According to the 30/60 method, this is a sell signal.',
+    signal_exp_wait:'Score between 31 and 59 — Neutral zone. Wait for a clear signal.',
+    tooltip_fg:'F&G',tooltip_btc:'BTC',
+    sfx_7j:'7D',sfx_30j:'30D',sfx_3m:'3M',sfx_6m:'6M',sfx_1an:'1Y',sfx_3ans:'3Y',sfx_all:'ALL',
+    error_prefix:'F&G Error',
+  }
+};
+
+function t(key){return T[currentLang][key]||T['fr'][key]||key;}
+
+function applyLang(){
+  document.documentElement.lang=currentLang;
+  // Static i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(el.tagName==='A'&&el.getAttribute('data-i18n-href')){
+      // handled separately
+    } else {
+      el.textContent=t(key);
+    }
+  });
+  // Links with text
+  document.querySelectorAll('a[data-i18n]').forEach(el=>{
+    el.textContent=t(el.getAttribute('data-i18n'));
+  });
+  // Dynamic labels (buys/sells) keep suffix
+  const sfxMap={7:t('sfx_7j'),30:t('sfx_30j'),90:t('sfx_3m'),180:t('sfx_6m'),365:t('sfx_1an'),1095:t('sfx_3ans'),9999:t('sfx_all')};
+  const sfx=sfxMap[activeDays]||activeDays+'';
+  const buyEl=document.getElementById('lbl-buys');
+  const sellEl=document.getElementById('lbl-sells');
+  if(buyEl)buyEl.textContent=t('days_buy')+' — '+sfx;
+  if(sellEl)sellEl.textContent=t('days_sell')+' — '+sfx;
+  // Chart title
+  const titleMap={7:t('chart_7'),30:t('chart_30'),90:t('chart_90'),180:t('chart_180'),365:t('chart_365'),1095:t('chart_1095'),9999:t('chart_9999')};
+  const chartTitleEl=document.getElementById('chart-title');
+  if(chartTitleEl)chartTitleEl.textContent=t('chart_title')+' — '+(titleMap[activeDays]||activeDays+' days');
+  // Lbl history (kept for dynamic, even if no history card)
+  const lh=document.getElementById('lbl-history');
+  if(lh)lh.textContent=t('chart_title')+' — '+sfx;
+  // Re-render signal if data available
+  if(allData.length>0)updateMainUI(allData);
+}
+
+function setLang(lang){
+  currentLang=lang;
+  document.getElementById('btn-fr').classList.toggle('active',lang==='fr');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  applyLang();
+  patchInfoLang();
+}
 
 function getSignal(s){return s<=BUY_THRESHOLD?'buy':s>=SELL_THRESHOLD?'sell':'wait';}
-function getZoneName(s){return s<=24?'Peur Extrême':s<=44?'Peur':s<=55?'Neutre':s<=74?'Avidité':'Avidité Extrême';}
+function getZoneName(s){
+  if(s<=24)return t('zone_extreme_fear');
+  if(s<=44)return t('zone_fear');
+  if(s<=55)return t('zone_neutral');
+  if(s<=74)return t('zone_greed');
+  return t('zone_extreme_greed');
+}
 function getZoneColor(s){return s<=24?'#f87171':s<=44?'#fb923c':s<=55?'#a3a3a3':s<=74?'#86efac':'#4ade80';}
-function formatDate(ts){return new Date(ts*1000).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
-function formatDateFull(ts){return new Date(ts*1000).toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});}
-function fmtK(n){return n>=1000?'$'+Math.round(n).toLocaleString('fr-FR'):'$'+n.toFixed(2);}
+function formatDate(ts){return new Date(ts*1000).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-GB',{day:'2-digit',month:'short'});}
+function formatDateFull(ts){return new Date(ts*1000).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});}
+function fmtK(n){return n>=1000?'$'+Math.round(n).toLocaleString(currentLang==='fr'?'fr-FR':'en-US'):'$'+n.toFixed(2);}
 
 function drawGauge(score){
   const canvas=document.getElementById('gaugeCanvas'),ctx=canvas.getContext('2d'),cx=100,cy=110,r=85;
@@ -323,25 +577,18 @@ function updateMainUI(data){
   if(yes!==null)document.getElementById('m-yesterday').textContent=yes;
   if(wk!==null)document.getElementById('m-week').textContent=wk;
   const pill=document.getElementById('signal-pill');
-  const exp={
-    buy:`Score ≤ ${BUY_THRESHOLD} — La peur domine le marché crypto. Selon la méthode 30/60, c'est un signal d'achat.`,
-    sell:`Score ≥ ${SELL_THRESHOLD} — L'euphorie domine. Selon la méthode 30/60, c'est un signal de vente.`,
-    wait:`Score entre ${BUY_THRESHOLD+1} et ${SELL_THRESHOLD-1} — Zone neutre. Attendre un signal clair.`
-  };
-  const lbl={buy:'↑ Signal ACHAT',sell:'↓ Signal VENTE',wait:'— Attendre'};
+  const lbl={buy:t('signal_buy'),sell:t('signal_sell'),wait:t('signal_wait')};
+  const exp={buy:t('signal_exp_buy'),sell:t('signal_exp_sell'),wait:t('signal_exp_wait')};
   pill.textContent=lbl[sig];pill.className='signal-pill '+sig;
   document.getElementById('signal-explain').textContent=exp[sig];
 }
 
-// ── BTC historique pour overlay graphique (Binance klines) ──
 async function fetchBtcHistory(days){
   try{
     const limit=Math.min(days>=9999?1000:days,1000);
-    const url=`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=${limit}`;
-    const r=await fetch(url);
+    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=${limit}`);
     if(!r.ok)return[];
-    const arr=await r.json();
-    return arr.map(k=>[parseInt(k[0]),parseFloat(k[4])]);
+    return (await r.json()).map(k=>[parseInt(k[0]),parseFloat(k[4])]);
   }catch(e){return[];}
 }
 
@@ -353,8 +600,8 @@ function buildChart(data,days){
   const isLarge=slice.length>180;
   const ptC=scores.map(s=>getSignal(s)==='buy'?'#4ade80':getSignal(s)==='sell'?'#f87171':'#6366f1');
   const ptR=scores.map(s=>isLarge?0:getSignal(s)!=='wait'?5:2);
-  const titles={7:'7 derniers jours',30:'30 derniers jours',90:'3 derniers mois',180:'6 derniers mois',365:'12 derniers mois',1095:'3 dernières années',9999:'Historique complet'};
-  document.getElementById('chart-title').textContent=`Évolution Fear & Greed — ${titles[days]||days+' jours'}`;
+  const titleMap={7:t('chart_7'),30:t('chart_30'),90:t('chart_90'),180:t('chart_180'),365:t('chart_365'),1095:t('chart_1095'),9999:t('chart_9999')};
+  document.getElementById('chart-title').textContent=t('chart_title')+' — '+(titleMap[days]||days+'d');
 
   const datasets=[
     {data:scores,borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.07)',fill:true,tension:.35,pointBackgroundColor:ptC,pointRadius:ptR,pointBorderColor:'transparent',borderWidth:2,yAxisID:'y',label:'F&G'},
@@ -364,16 +611,9 @@ function buildChart(data,days){
 
   if(showBtcChart&&btcHistData.length>0){
     const btcMap={};
-    btcHistData.forEach(([tsMs,price])=>{
-      const day=Math.floor(tsMs/86400000)*86400;
-      btcMap[day]=price;
-    });
+    btcHistData.forEach(([tsMs,price])=>{btcMap[Math.floor(tsMs/86400000)*86400]=price;});
     const fngDays=rev.map(d=>Math.floor(d.timestamp/86400)*86400);
-    datasets.push({
-      data:fngDays.map(d=>btcMap[d]||null),
-      borderColor:'#f7931a',fill:false,tension:.35,
-      pointRadius:0,borderWidth:1.5,yAxisID:'yBtc',label:'BTC',spanGaps:true,
-    });
+    datasets.push({data:fngDays.map(d=>btcMap[d]||null),borderColor:'#f7931a',fill:false,tension:.35,pointRadius:0,borderWidth:1.5,yAxisID:'yBtc',label:'BTC',spanGaps:true});
   }
 
   const scales={
@@ -396,8 +636,8 @@ function buildChart(data,days){
           callbacks:{
             title:c=>rev[c[0].dataIndex]?formatDateFull(rev[c[0].dataIndex].timestamp):'',
             label:c=>{
-              if(c.dataset.label==='BTC')return ` BTC : ${fmtK(c.raw)}`;
-              if(c.dataset.label==='F&G')return ` F&G : ${c.raw}  (${getZoneName(c.raw)})`;
+              if(c.dataset.label==='BTC')return ' '+t('tooltip_btc')+' : '+fmtK(c.raw);
+              if(c.dataset.label==='F&G')return ' '+t('tooltip_fg')+' : '+c.raw+' ('+getZoneName(c.raw)+')';
               return null;
             },
           },
@@ -411,29 +651,15 @@ function buildChart(data,days){
   });
 }
 
-function buildHistory(data,days){
-  days=days||activeDays;
-  // Compteurs sur la période active
+function buildMetrics(data,days){
+  const sfxMap={7:t('sfx_7j'),30:t('sfx_30j'),90:t('sfx_3m'),180:t('sfx_6m'),365:t('sfx_1an'),1095:t('sfx_3ans'),9999:t('sfx_all')};
+  const sfx=sfxMap[days]||days+'';
   const cutTs=days>=9999?0:(Date.now()/1000-days*86400);
   const period=data.filter(d=>parseInt(d.timestamp)>=cutTs);
   document.getElementById('m-buys').textContent=period.filter(d=>parseInt(d.value)<=BUY_THRESHOLD).length;
   document.getElementById('m-sells').textContent=period.filter(d=>parseInt(d.value)>=SELL_THRESHOLD).length;
-  // Labels dynamiques
-  const sfx=days>=9999?'ALL':days>=1095?'3ANS':days>=365?'1AN':days>=180?'6M':days>=90?'3M':days>=30?'30J':'7J';
-  document.getElementById('lbl-buys').textContent='Jours ACHAT — '+sfx;
-  document.getElementById('lbl-sells').textContent='Jours VENTE — '+sfx;
-  document.getElementById('lbl-history').textContent='Historique des signaux — '+sfx;
-  // Tableau : 7 derniers jours uniquement
-  const last7=data.slice(0,7),c=document.getElementById('signal-history');
-  if(!last7.length){c.innerHTML='<p style="font-size:13px;color:var(--muted);padding:1rem 0;">Aucune donnée.</p>';return;}
-  c.innerHTML=last7.map(d=>{
-    const sc=parseInt(d.value),sig=getSignal(sc),b=sig==='buy',sl=sig==='sell';
-    const bg=b?'var(--buy-bg)':sl?'var(--sell-bg)':'var(--wait-bg)';
-    const col=b?'var(--buy)':sl?'var(--sell)':'var(--wait)';
-    const bdr=b?'rgba(74,222,128,.25)':sl?'rgba(248,113,113,.25)':'rgba(251,191,36,.25)';
-    const lbl=b?'↑ ACHAT':sl?'↓ VENTE':'— NEUTRE';
-    return `<div class="history-row"><span class="history-badge" style="background:${bg};color:${col};border:1px solid ${bdr};">${lbl}</span><span class="history-date">${formatDateFull(d.timestamp)}</span><span class="history-score">Score : ${sc}</span><span class="history-zone">${getZoneName(sc)}</span></div>`;
-  }).join('');
+  document.getElementById('lbl-buys').textContent=t('days_buy')+' — '+sfx;
+  document.getElementById('lbl-sells').textContent=t('days_sell')+' — '+sfx;
 }
 
 async function fetchData(){
@@ -443,10 +669,12 @@ async function fetchData(){
     if(!res.ok)throw new Error('HTTP '+res.status);
     allData=(await res.json()).data;
     loader.style.display='none';dash.style.display='block';
-    updateMainUI(allData);buildChart(allData,activeDays);buildHistory(allData,activeDays);
+    updateMainUI(allData);buildChart(allData,activeDays);buildMetrics(allData,activeDays);
     const now=new Date();
-    document.getElementById('last-update').textContent='Mis à jour le '+now.toLocaleDateString('fr-FR')+' à '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  }catch(err){loader.innerHTML=`<p style="color:#f87171;">Erreur F&G : ${err.message}</p>`;}
+    const locale=currentLang==='fr'?'fr-FR':'en-GB';
+    document.getElementById('last-update').textContent=
+      t('last_update_prefix')+' '+now.toLocaleDateString(locale)+' '+t('last_update_at')+' '+now.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'});
+  }catch(err){loader.innerHTML=`<p style="color:#f87171;">${t('error_prefix')} : ${err.message}</p>`;}
 }
 
 function scheduleNextRefresh(){
@@ -455,25 +683,466 @@ function scheduleNextRefresh(){
   setTimeout(()=>{fetchData();scheduleNextRefresh();},n-np);
 }
 
-// Toggle BTC overlay sur graphique
 document.getElementById('btc-chart-toggle').addEventListener('click',async()=>{
   showBtcChart=!showBtcChart;
   document.getElementById('btc-chart-toggle').classList.toggle('active',showBtcChart);
   document.getElementById('btc-legend').style.display=showBtcChart?'flex':'none';
-  if(showBtcChart){btcHistData=await fetchBtcHistory(activeDays);}
-  else{btcHistData=[];}
+  if(showBtcChart){btcHistData=await fetchBtcHistory(activeDays);}else{btcHistData=[];}
   if(allData.length>0)buildChart(allData,activeDays);
 });
 
-// Timeline
 document.querySelectorAll('.tl-btn').forEach(btn=>btn.addEventListener('click',async()=>{
   document.querySelectorAll('.tl-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const days=parseInt(btn.dataset.days);
   if(showBtcChart){btcHistData=await fetchBtcHistory(days);}
-  if(allData.length>0){buildChart(allData,days);buildHistory(allData,days);}
+  if(allData.length>0){buildChart(allData,days);buildMetrics(allData,days);}
 }));
 
+
+// ══════════════════════════════════════════════════════
+// SECTION : PLUS D'INFORMATIONS
+// ══════════════════════════════════════════════════════
+
+function toggleInfo(){
+  const sec=document.getElementById('info-section');
+  const isOpen=sec.classList.toggle('open');
+  document.getElementById('info-toggle-label').textContent=
+    isOpen?(currentLang==='fr'?"✕ Moins d'informations":"✕ Less information")
+          :(currentLang==='fr'?"＋ Plus d'informations":"＋ More information");
+  if(isOpen&&!infoLoaded)loadInfoData();
+}
+
+let infoLoaded=false;
+
+async function loadInfoData(){
+  infoLoaded=true;
+  await Promise.all([loadBtcPrice(),loadPerformances()]);
+}
+
+// ── Prix BTC + tendance 24h via Binance
+async function loadBtcPrice(){
+  try{
+    // Prix actuel (dernière bougie journalière fermée + ticker)
+    const [tickerRes,klinesRes]=await Promise.all([
+      fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
+      fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=3')
+    ]);
+    if(!tickerRes.ok||!klinesRes.ok)throw new Error('Binance unavailable');
+    const ticker=await tickerRes.json();
+    const klines=await klinesRes.json();
+
+    const price=parseFloat(ticker.price);
+    window._lastBtcPrice=price; // used by simulate() for open position valuation
+    // Format price
+    const fmt=n=>n>=1000?'$'+Math.round(n).toLocaleString(currentLang==='fr'?'fr-FR':'en-US'):'$'+n.toFixed(2);
+    document.getElementById('info-btc-price').textContent=fmt(price);
+    document.getElementById('info-btc-sub').textContent='Bitcoin — Binance BTCUSDT';
+
+    // Tendance 24h : compare close J-2 vs close J-1 (dernières bougies fermées)
+    if(klines.length>=2){
+      const closeJ2=parseFloat(klines[klines.length-2][4]); // avant-dernière bougie fermée
+      const closeJ1=parseFloat(klines[klines.length-1][4]); // dernière bougie fermée
+      const pct=((closeJ1-closeJ2)/closeJ2)*100;
+      const el=document.getElementById('info-trend');
+      const arrow=document.getElementById('info-trend-arrow');
+      const lbl=document.getElementById('info-trend-label');
+      el.classList.remove('up','down','flat');
+      if(pct>1){
+        el.classList.add('up');arrow.textContent='↗';
+        lbl.textContent=(currentLang==='fr'?'Hausse ':'Up ')+'+'+pct.toFixed(1)+'% (24h)';
+      }else if(pct<-1){
+        el.classList.add('down');arrow.textContent='↘';
+        lbl.textContent=(currentLang==='fr'?'Baisse ':'Down ')+pct.toFixed(1)+'% (24h)';
+      }else{
+        el.classList.add('flat');arrow.textContent='→';
+        lbl.textContent=(currentLang==='fr'?'Stable ':'Stable ')+
+          (pct>=0?'+':'')+pct.toFixed(1)+'% (24h)';
+      }
+    }
+  }catch(e){
+    document.getElementById('info-btc-price').textContent=
+      currentLang==='fr'?'Indisponible':'Unavailable';
+    document.getElementById('info-btc-sub').textContent=
+      currentLang==='fr'?'(CORS Binance bloqué en local)':'(Binance CORS blocked locally)';
+  }
+}
+
+// ── Calcul de performance de la méthode 30/60
+// Logique : on reconstitue les cycles achat/vente depuis l'historique F&G + prix BTC.
+// Achat = premier jour où score ≤ 30 (si pas déjà en position)
+// Vente = premier jour où score ≥ 60 (si en position)
+// Performance = produit de tous les rendements ((prix_vente/prix_achat) - 1)
+async function loadPerformances(){
+  try{
+    // On charge tout l'historique F&G + 1000 klines BTC (~ 2.7 ans)
+    const [fngRes,btcRes]=await Promise.all([
+      fetch('https://api.alternative.me/fng/?limit=0&format=json'),
+      fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1000')
+    ]);
+    if(!fngRes.ok||!btcRes.ok)throw new Error('Data unavailable');
+
+    const fngData=(await fngRes.json()).data; // newest first
+    const btcKlines=await btcRes.json();      // oldest first, [openTime, open, high, low, close, ...]
+
+    // Build BTC price map: day timestamp (midnight UTC) → close price
+    const btcMap={};
+    btcKlines.forEach(k=>{
+      const dayTs=Math.floor(parseInt(k[0])/86400000)*86400; // ms → seconds (day)
+      btcMap[dayTs]=parseFloat(k[4]);
+    });
+
+    // Build chronological F&G array (oldest first), attach BTC price
+    const fng=[...fngData].reverse(); // now oldest first
+    const days=fng.map(d=>{
+      const ts=parseInt(d.timestamp);
+      const dayTs=Math.floor(ts/86400)*86400;
+      return {ts,dayTs,score:parseInt(d.value),btc:btcMap[dayTs]||null};
+    });
+
+    // Méthode 30/60 — agrégats globaux
+    // Chaque jour ≤30 : on investit 100$ en BTC
+    // Chaque jour ≥60 : signal de vente (comptabilisé même si pas de BTC dispo)
+    function simulate(yearStart, yearEnd, currentBtcPrice){
+      const start=new Date(yearStart,0,1).getTime()/1000;
+      const end  =new Date(yearEnd,11,31,23,59,59).getTime()/1000;
+      const slice=days.filter(d=>d.ts>=start&&d.ts<=end&&d.btc!==null);
+      if(slice.length<2)return null;
+
+      var AMT = 100; // 100$ par signal achat
+      let totalInvested=0;
+      let totalBtcHeld=0;       // BTC accumulé net (après ventes)
+      let totalBtcCost=0;       // coût total du BTC encore détenu (pour prix moyen)
+      let totalSold=0;
+      let nBuy=0;
+      let nSellSignal=0;        // tous les jours ≥60 (signal déclenché)
+      let nSellEffective=0;     // ventes réelles (avait du BTC)
+      let nSellFull=0;          // ventes à 100$ plein
+      let soldPartialAmt=0;     // montant des ventes partielles (< 100$)
+      let firstTs=null, lastTs=null;
+
+      for(let i=0;i<slice.length;i++){
+        const d=slice[i];
+        if(d.score<=30){
+          totalInvested+=AMT;
+          totalBtcHeld+=AMT/d.btc;
+          totalBtcCost+=AMT;
+          nBuy++;
+          if(!firstTs)firstTs=d.ts;
+          lastTs=d.ts;
+        } else if(d.score>=60){
+          nSellSignal++;        // signal compté quoi qu'il arrive
+          lastTs=d.ts;
+          if(totalBtcHeld>0){
+            const btcNeeded=AMT/d.btc;
+            const btcToSell=Math.min(btcNeeded, totalBtcHeld);
+            const proceeds=btcToSell*d.btc;
+            totalSold+=proceeds;
+            // proportionnellement, réduire le coût de base
+            const costFraction=btcToSell/totalBtcHeld;
+            totalBtcCost*=(1-costFraction);
+            totalBtcHeld-=btcToSell;
+            nSellEffective++;
+            if(btcToSell>=btcNeeded*0.999){
+              nSellFull++;
+            } else {
+              soldPartialAmt+=proceeds;
+            }
+          }
+        }
+      }
+
+      const avgBuyPrice = totalBtcHeld>0 ? totalBtcCost/totalBtcHeld : 0;
+      const refPrice=currentBtcPrice||slice[slice.length-1].btc;
+      const currentValue=totalBtcHeld*refPrice;
+      const totalOut=totalSold+currentValue;
+      const pct=totalInvested>0?((totalOut-totalInvested)/totalInvested)*100:0;
+      const nSellPartial=nSellEffective-nSellFull;
+
+      return{
+        pct,
+        totalInvested,
+        totalSold,
+        currentValue,
+        totalBtcHeld,
+        nBuy,
+        nSell: nSellSignal,       // total signaux vente déclenchés
+        nSellEffective,            // ventes réelles
+        nSellFull,                 // ventes à montant plein (100$)
+        nSellPartial,              // ventes partielles (< 100$)
+        soldPartialAmt,            // montant total des ventes partielles
+        avgBuyPrice,               // prix moyen d'achat du BTC encore détenu
+        open: totalBtcHeld>0,
+        firstTs, lastTs,
+        refPrice
+      };
+    }
+
+    // Perf globale depuis l'origine — on passe le prix BTC actuel pour valoriser la position ouverte
+    const currentBtcPrice=window._lastBtcPrice||null;
+    const allResult=simulate(2018,9999,currentBtcPrice);
+
+    // Store globally for togglePerfDrawer
+    window._perfResults={all:allResult};
+
+    function fmtTradeDate(ts){
+      return new Date(ts*1000).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-GB',
+        {day:'2-digit',month:'short',year:'2-digit'});
+    }
+    function fmtBtcPrice(n){
+      return n>=1000?'$'+Math.round(n).toLocaleString(currentLang==='fr'?'fr-FR':'en-US'):'$'+n.toFixed(0);
+    }
+    function scoreColor(s){
+      return s<=24?'#f87171':s<=44?'#fb923c':s<=55?'#a3a3a3':s<=74?'#86efac':'#4ade80';
+    }
+
+    // Montant par signal : 100$
+    var SIGNAL_AMT = 100;
+
+    function fmtDollars(n){
+      return "$" + Math.round(n).toLocaleString(currentLang==="fr" ? "fr-FR" : "en-US");
+    }
+
+    function renderPerf(elId, detailId, drawerId, res){
+      var el = document.getElementById(elId);
+      var det = document.getElementById(detailId);
+      if(!res || res.nBuy === 0){
+        el.innerHTML = "<span style='color:var(--muted);font-size:.9rem;'>—</span>";
+        det.textContent = currentLang === "fr" ? "Aucun signal sur la période" : "No signal this period";
+        return;
+      }
+
+      var pct = res.pct;
+      var sign = pct >= 0 ? "+" : "";
+      el.textContent = sign + pct.toFixed(1) + "%";
+      el.className = "perf-value " + (pct > 0 ? "pos" : pct < 0 ? "neg" : "neutral");
+
+      det.textContent = (currentLang === "fr" ? "Signaux : " : "Signals: ")
+        + res.nBuy + " " + (currentLang === "fr" ? "achat" : "buy") + (res.nBuy > 1 ? "s" : "")
+        + " · " + res.nSell + " " + (currentLang === "fr" ? "vente" : "sell") + (res.nSell > 1 ? "s" : "")
+        + (res.open ? (currentLang === "fr" ? " · position ouverte" : " · open position") : "");
+
+      var invested = res.totalInvested;
+      var sold     = res.totalSold;
+      var cur      = res.currentValue;
+      var total    = sold + cur;
+
+      // ── Libellés i18n ──
+      var lInvested = currentLang === "fr" ? "Total investi" : "Total invested";
+      var lSold     = currentLang === "fr" ? "Déjà encaissé" : "Already cashed";
+      var lCurrent  = currentLang === "fr" ? "Position en cours" : "Open position";
+      var lTotal    = currentLang === "fr" ? "Total encaissé + en cours" : "Total out + open";
+      var lRefPrice = currentLang === "fr" ? "Prix BTC de réf. :" : "Ref. BTC price:";
+      var lAvgBuy   = currentLang === "fr" ? "Prix moyen d'achat :" : "Avg. buy price:";
+      var lHeld     = currentLang === "fr" ? "BTC en portefeuille" : "BTC held";
+      var lNone     = currentLang === "fr" ? "Pas de position" : "No open position";
+      var lNote     = currentLang === "fr"
+        ? "100 $ investis à chaque signal ACHAT · 100 $ visés à chaque signal VENTE"
+        : "$100 invested per BUY signal · $100 targeted per SELL signal";
+
+      // Détail des signaux de vente
+      var sellDetail = "";
+      if(currentLang === "fr"){
+        sellDetail = res.nSell + " signal" + (res.nSell>1?"s":"") + " vente déclenchés";
+        if(res.nSellFull > 0)  sellDetail += " · " + res.nSellFull + " × 100 $";
+        if(res.nSellPartial > 0) sellDetail += " · " + res.nSellPartial + " × " + fmtDollars(res.soldPartialAmt) + " (partiel)";
+        var nSellMissed = res.nSell - res.nSellEffective;
+        if(nSellMissed > 0) sellDetail += " · " + nSellMissed + " sans BTC dispo";
+      } else {
+        sellDetail = res.nSell + " sell signal" + (res.nSell>1?"s":"") + " triggered";
+        if(res.nSellFull > 0)  sellDetail += " · " + res.nSellFull + " × $100";
+        if(res.nSellPartial > 0) sellDetail += " · " + res.nSellPartial + " × " + fmtDollars(res.soldPartialAmt) + " (partial)";
+        var nSellMissed = res.nSell - res.nSellEffective;
+        if(nSellMissed > 0) sellDetail += " · " + nSellMissed + " with no BTC";
+      }
+
+      // ── Analyse contextuelle ──
+      var analysis = "";
+      var analysisColor = "var(--muted)";
+      if(res.open && res.totalBtcHeld > 0 && res.avgBuyPrice > 0 && res.refPrice > 0){
+        var btcGainPct = ((res.refPrice - res.avgBuyPrice) / res.avgBuyPrice) * 100;
+        var unrealisedGain = res.currentValue - res.totalBtcCost; // approx via avgBuyPrice
+        var costBasis = res.totalBtcHeld * res.avgBuyPrice;
+        var unrealisedPct = ((res.currentValue - costBasis) / costBasis) * 100;
+        if(currentLang === "fr"){
+          if(pct < 0 && res.open){
+            analysis = "La perf affichée est négative car la position ouverte est valorisée au prix actuel ("
+              + fmtDollars(res.refPrice) + "). Le BTC détenu a été acheté en moyenne à "
+              + fmtDollars(res.avgBuyPrice) + " — soit " + (unrealisedPct >= 0 ? "+" : "") + unrealisedPct.toFixed(0) + " % sur la position. "
+              + "Si le prix monte, la perf globale suit mécaniquement.";
+            analysisColor = "rgba(251,191,36,.9)";
+          } else if(pct >= 0 && res.open){
+            analysis = "Performance positive avec position ouverte. BTC acheté en moyenne à "
+              + fmtDollars(res.avgBuyPrice) + " · actuellement à "
+              + fmtDollars(res.refPrice) + " (" + (unrealisedPct >= 0 ? "+" : "") + unrealisedPct.toFixed(0) + " % sur la position).";
+            analysisColor = "var(--buy)";
+          }
+        } else {
+          if(pct < 0 && res.open){
+            analysis = "Negative P&L because the open position is valued at current price ("
+              + fmtDollars(res.refPrice) + "). BTC was bought at an average of "
+              + fmtDollars(res.avgBuyPrice) + " — " + (unrealisedPct >= 0 ? "+" : "") + unrealisedPct.toFixed(0) + "% on the open leg. "
+              + "As price rises, overall P&L follows.";
+            analysisColor = "rgba(251,191,36,.9)";
+          } else if(pct >= 0 && res.open){
+            analysis = "Positive performance with open position. BTC avg. buy at "
+              + fmtDollars(res.avgBuyPrice) + " · now at "
+              + fmtDollars(res.refPrice) + " (" + (unrealisedPct >= 0 ? "+" : "") + unrealisedPct.toFixed(0) + "% on open leg).";
+            analysisColor = "var(--buy)";
+          }
+        }
+      } else if(!res.open){
+        if(currentLang === "fr"){
+          analysis = pct >= 0
+            ? "Toutes les positions ont été vendues. Performance réalisée : " + sign + pct.toFixed(1) + " %."
+            : "Toutes les positions ont été vendues. Performance réalisée négative : " + sign + pct.toFixed(1) + " %.";
+        } else {
+          analysis = pct >= 0
+            ? "All positions closed. Realised performance: " + sign + pct.toFixed(1) + "%."
+            : "All positions closed. Negative realised performance: " + sign + pct.toFixed(1) + "%.";
+        }
+        analysisColor = pct >= 0 ? "var(--buy)" : "var(--sell)";
+      }
+
+      // ── ATH BTC : 126 210 $ · 6 oct 2025 (Coinbase + CoinMarketCap + CoinGecko) ──
+      var ATH_BTC   = 126210;
+      var athValue  = res.totalBtcHeld * ATH_BTC;
+      var athTotal  = sold + athValue;
+      var athPct    = res.totalInvested > 0 ? ((athTotal - res.totalInvested) / res.totalInvested) * 100 : 0;
+      var athSign   = athPct >= 0 ? "+" : "";
+      var lAth      = currentLang === "fr" ? "Perf si vente à l'ATH" : "Perf if sold at ATH";
+      var lAthPrice = currentLang === "fr" ? "ATH BTC :" : "BTC ATH:";
+      var lAthSrc   = currentLang === "fr" ? "Sources : Coinbase · CoinMarketCap · CoinGecko" : "Sources: Coinbase · CoinMarketCap · CoinGecko";
+
+      var cardStyle  = "background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.7rem .85rem;";
+      var cardAccent = "background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:8px;padding:.7rem .85rem;";
+      var labelStyle = "font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;";
+      var valStyle   = "font-family:var(--font-mono, monospace);font-size:1.05rem;font-weight:500;";
+
+      var drawer = document.getElementById(drawerId);
+      if(drawer){
+        drawer.innerHTML =
+
+          // ── Analyse contextuelle ──
+          (analysis ? "<div style='margin-top:.5rem;margin-bottom:.7rem;padding:.6rem .75rem;border-left:3px solid " + analysisColor + ";border-radius:0 6px 6px 0;background:rgba(255,255,255,.03);font-size:.82rem;color:" + analysisColor + ";line-height:1.5;'>" + analysis + "</div>" : "")
+
+          // ── Grille 2×2 ──
+          + "<div style='display:grid;grid-template-columns:1fr 1fr;gap:.6rem .75rem;'>"
+
+          // Investi
+          + "<div style='" + cardStyle + "'>"
+          + "<div style='" + labelStyle + "'>" + lInvested + "</div>"
+          + "<div style='" + valStyle + "color:var(--text);'>" + fmtDollars(invested) + "</div>"
+          + "<div style='font-size:10px;color:var(--muted);margin-top:3px;'>" + res.nBuy + " signaux × $100</div>"
+          + "</div>"
+
+          // Déjà encaissé — avec détail des ventes
+          + "<div style='" + cardStyle + "'>"
+          + "<div style='" + labelStyle + "'>" + lSold + "</div>"
+          + "<div style='" + valStyle + "color:var(--buy);'>" + fmtDollars(sold) + "</div>"
+          + "<div style='font-size:10px;color:var(--muted);margin-top:3px;line-height:1.6;'>" + sellDetail + "</div>"
+          + "</div>"
+
+          // Position en cours
+          + "<div style='" + cardStyle + "'>"
+          + "<div style='" + labelStyle + "'>" + lCurrent + "</div>"
+          + "<div style='" + valStyle + "color:" + (res.open ? "var(--wait)" : "var(--muted)") + ";'>" + fmtDollars(cur) + "</div>"
+          + "<div style='font-size:10px;color:var(--muted);margin-top:3px;'>" + (res.open ? lHeld : lNone) + "</div>"
+          + (res.open && res.avgBuyPrice > 0 ? "<div style='font-size:10px;color:var(--muted);margin-top:1px;'>" + lAvgBuy + " <strong style='color:var(--text);'>" + fmtDollars(res.avgBuyPrice) + "</strong></div>" : "")
+          + "</div>"
+
+          // Total + perf
+          + "<div style='" + cardAccent + "'>"
+          + "<div style='" + labelStyle + "'>" + lTotal + "</div>"
+          + "<div style='" + valStyle + "color:var(--text);'>" + fmtDollars(total) + "</div>"
+          + "<div style='font-size:10px;font-weight:700;margin-top:3px;color:" + (pct >= 0 ? "var(--buy)" : "var(--sell)") + ";'>" + sign + pct.toFixed(1) + "%</div>"
+          + "</div>"
+
+          + "</div>"
+
+          // ── Bloc ATH ──
+          + "<div style='margin-top:.75rem;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:.75rem .9rem;'>"
+          + "<div style='display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;'>"
+          + "<div>"
+          + "<div style='font-size:10px;color:rgba(251,191,36,.8);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;'>" + lAth + "</div>"
+          + "<div style='font-family:var(--font-mono,monospace);font-size:1.12rem;font-weight:700;color:#fbbf24;'>" + athSign + athPct.toFixed(1) + "%"
+          + " <span style='font-size:.88rem;font-weight:400;color:var(--muted);'>(" + fmtDollars(athTotal) + ")</span></div>"
+          + "<div style='font-size:10px;color:var(--muted);margin-top:2px;'>"
+          + (res.totalBtcHeld > 0 ? (currentLang === "fr" ? "BTC détenu × $" : "BTC held × $") + Math.round(ATH_BTC).toLocaleString(currentLang === "fr" ? "fr-FR" : "en-US") : (currentLang === "fr" ? "Pas de BTC en portefeuille" : "No BTC held")) + "</div>"
+          + "</div>"
+          + "<div style='text-align:right;flex-shrink:0;'>"
+          + "<div style='font-size:10px;color:rgba(251,191,36,.7);text-transform:uppercase;letter-spacing:.08em;'>" + lAthPrice + "</div>"
+          + "<div style='font-family:var(--font-mono,monospace);font-size:1.05rem;font-weight:700;color:#fbbf24;'>$" + Math.round(ATH_BTC).toLocaleString(currentLang === "fr" ? "fr-FR" : "en-US") + "</div>"
+          + "<div style='font-size:10px;color:var(--muted);margin-top:1px;'>6 oct 2025</div>"
+          + "</div>"
+          + "</div>"
+          + "<div style='font-size:9px;color:rgba(255,255,255,.2);margin-top:.4rem;'>" + lAthSrc + "</div>"
+          + "</div>"
+
+          // ── Note de bas ──
+          + "<div style='font-size:10px;color:var(--muted);margin-top:.65rem;line-height:1.5;'>"
+          + lNote + "<br>"
+          + lRefPrice + " <strong style='color:var(--text);'>$" + Math.round(res.refPrice).toLocaleString(currentLang === "fr" ? "fr-FR" : "en-US") + "</strong>"
+          + (res.open && res.avgBuyPrice > 0 ? " · " + lAvgBuy + " <strong style='color:var(--text);'>$" + Math.round(res.avgBuyPrice).toLocaleString(currentLang === "fr" ? "fr-FR" : "en-US") + "</strong>" : "")
+          + "</div>";
+      }
+    }
+
+    // Affiche la période couverte
+    if(allResult&&allResult.firstTs){
+      const fmtY=function(ts){return new Date(ts*1000).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-GB',{month:'short',year:'numeric'});};
+      const periodStr=fmtY(allResult.firstTs)+' → '+fmtY(allResult.lastTs||Math.floor(Date.now()/1000));
+      document.getElementById('perf-all-period').innerHTML=periodStr+' <span class="perf-card-chevron">▼</span>';
+    }
+    renderPerf('perf-all','perf-all-detail','pdrawer-all',allResult);
+
+  }catch(e){
+    const el=document.getElementById('perf-all');
+    if(el)el.textContent='—';
+    console.error('loadPerformances error:',e);
+  }
+}
+
+// ── Toggle perf drawer on card click
+function togglePerfDrawer(key){
+  const card=document.getElementById('pcard-'+key);
+  const drawer=document.getElementById('pdrawer-'+key);
+  if(!card||!drawer)return;
+  const isOpen=drawer.classList.toggle('open');
+  card.classList.toggle('active',isOpen);
+}
+
+// Update info toggle label on lang change
+const _origApplyLang=applyLang;
+// Patch: after applyLang, re-render toggle label and section texts
+function patchInfoLang(){
+  const sec=document.getElementById('info-section');
+  if(!sec)return;
+  const isOpen=sec.classList.contains('open');
+  document.getElementById('info-toggle-label').textContent=
+    isOpen?(currentLang==='fr'?"✕ Moins d'informations":"✕ Less information")
+          :(currentLang==='fr'?"＋ Plus d'informations":"＋ More information");
+
+  // Section labels
+  const labels={
+    'lbl-fg-explain':currentLang==='fr'?"Qu'est-ce que le Fear & Greed Index ?":'What is the Fear & Greed Index?',
+    'lbl-btc-live':currentLang==='fr'?'Prix BTC & Tendance':'BTC Price & Trend',
+    'lbl-perf':currentLang==='fr'?"Performance de la méthode 30/60 — depuis l'origine":'30/60 Method Performance — since inception',
+  };
+  Object.entries(labels).forEach(([id,txt])=>{const e=document.getElementById(id);if(e)e.textContent=txt;});
+
+  // F&G explanation
+  const expFR=`Le <strong>Fear & Greed Index</strong> est un indicateur publié quotidiennement par <strong>alternative.me</strong>. Il mesure l'état émotionnel du marché crypto sur une échelle de <strong>0</strong> (peur extrême) à <strong>100</strong> (avidité extrême). Il agrège six signaux : <strong>volatilité</strong>, <strong>volume de marché</strong>, <strong>réseaux sociaux</strong>, <strong>dominance Bitcoin</strong>, <strong>tendances Google</strong> et <strong>momentum des prix</strong>. Un score bas indique que les investisseurs paniquent — historiquement un bon moment d'achat. Un score élevé signale l'euphorie — souvent précurseur d'une correction.`;
+  const expEN=`The <strong>Fear & Greed Index</strong> is an indicator published daily by <strong>alternative.me</strong>. It measures the emotional state of the crypto market on a scale from <strong>0</strong> (extreme fear) to <strong>100</strong> (extreme greed). It aggregates six signals: <strong>volatility</strong>, <strong>market volume</strong>, <strong>social media</strong>, <strong>Bitcoin dominance</strong>, <strong>Google trends</strong> and <strong>price momentum</strong>. A low score means investors are panicking — historically a good buying opportunity. A high score signals euphoria — often a precursor to a correction.`;
+  const expEl=document.getElementById('fg-explain-text');
+  if(expEl)expEl.innerHTML=currentLang==='fr'?expFR:expEN;
+
+  // Re-render trend label if already loaded
+  if(infoLoaded)loadBtcPrice();
+}
+// Init
+applyLang();
+patchInfoLang();
 fetchData();
 scheduleNextRefresh();
 </script>
